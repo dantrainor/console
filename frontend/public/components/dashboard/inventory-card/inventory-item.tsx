@@ -59,7 +59,16 @@ const getStatusGroupIcons = (flags: FlagsObject) => {
 };
 
 export const InventoryItem: React.FC<InventoryItemProps> = React.memo(
-  ({ isLoading, title, count, children, error = false, TitleComponent, ExpandedComponent }) => {
+  ({
+    isLoading,
+    title,
+    count,
+    children,
+    error = false,
+    TitleComponent,
+    ExpandedComponent,
+    ...props
+  }) => {
     const [expanded, setExpanded] = React.useState(false);
     const onClick = React.useCallback(() => setExpanded(!expanded), [expanded]);
     const pluralizedTitle = count !== 1 ? `${title}s` : title;
@@ -77,7 +86,7 @@ export const InventoryItem: React.FC<InventoryItemProps> = React.memo(
             id={title}
             className="co-inventory-card__accordion-toggle"
           >
-            <div className="co-inventory-card__item">
+            <div data-test-id={props['data-test-id']} className="co-inventory-card__item">
               <div className="co-inventory-card__item-title">
                 {isLoading && !error && <div className="skeleton-inventory" />}
                 {TitleComponent ? <TitleComponent>{titleMessage}</TitleComponent> : titleMessage}
@@ -142,6 +151,7 @@ const StatusLink = connectToFlags<StatusLinkProps>(
   }
   const statusItems = encodeURIComponent(statusIDs.join(','));
   const namespacePath = namespace ? `ns/${namespace}` : 'all-namespaces';
+  const cleanStatusItems = statusIDs.join('-').toLowerCase();
   const to =
     filterType && statusItems.length > 0
       ? `/k8s/${namespacePath}/${kind.plural}?rowFilter-${filterType}=${statusItems}`
@@ -152,7 +162,12 @@ const StatusLink = connectToFlags<StatusLinkProps>(
     <div className="co-inventory-card__status">
       <Link to={to} style={{ textDecoration: 'none' }}>
         <span className="co-dashboard-icon">{groupIcon}</span>
-        <span className="co-inventory-card__status-text">{count}</span>
+        <span
+          data-test-id={`console-dashboard-inventory-count-${cleanStatusItems}`}
+          className="co-inventory-card__status-text"
+        >
+          {count}
+        </span>
       </Link>
     </div>
   );
@@ -177,9 +192,10 @@ export const ResourceInventoryItem = connectToFlags<ResourceInventoryItemProps>(
     showLink = true,
     flags = {},
     ExpandedComponent,
+    ...props
   }) => {
     const TitleComponent = React.useCallback(
-      (props) => <ResourceTitleComponent kind={kind} namespace={namespace} {...props} />,
+      (ps) => <ResourceTitleComponent kind={kind} namespace={namespace} {...ps} />,
       [kind, namespace],
     );
 
@@ -196,6 +212,7 @@ export const ResourceInventoryItem = connectToFlags<ResourceInventoryItemProps>(
         error={error}
         TitleComponent={showLink ? TitleComponent : null}
         ExpandedComponent={ExpandedComponent}
+        data-test-id={props['data-test-id']}
       >
         {top3Groups.map((key) =>
           showLink ? (
@@ -238,6 +255,7 @@ type InventoryItemProps = {
   error?: boolean;
   TitleComponent?: React.ComponentType<{}>;
   ExpandedComponent?: React.ComponentType<{}>;
+  'data-test-id'?: string;
 };
 
 type StatusProps = WithFlagsProps & {
@@ -268,4 +286,5 @@ type ResourceInventoryItemProps = WithFlagsProps & {
   error: boolean;
   showLink?: boolean;
   ExpandedComponent?: React.ComponentType<{}>;
+  'data-test-id'?: string;
 };

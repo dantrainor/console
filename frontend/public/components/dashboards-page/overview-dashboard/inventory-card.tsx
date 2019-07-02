@@ -141,6 +141,7 @@ export const InventoryCard = connectToFlags(
               additionalResources={item.properties.additionalResources}
               useAbbr={item.properties.useAbbr}
               expandedComponent={item.properties.expandedComponent}
+              data-test-id={`console-dashboard-inventory-${item.properties.model.id}`}
             />
           ))}
         </InventoryBody>

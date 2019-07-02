@@ -86,6 +86,7 @@ const InventoryCard: React.FC<InventoryCardProps> = ({
             title="Pod"
             count={podCount}
             error={podQueryError || podError || !podStats.length}
+            data-test-id="metal3-plugin-dashboard-inventory-pod"
           />
         </InventoryBody>
       </DashboardCardBody>

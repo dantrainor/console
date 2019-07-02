@@ -118,6 +118,10 @@ export const config: Config = {
     environment: suite(['tests/environment.scenario.ts']),
     secrets: suite(['tests/secrets.scenario.ts']),
     storage: suite(['tests/storage.scenario.ts']),
+    baremetalSmokeTests: [
+      'tests/kubevirt/kubevirt.login.scenario.ts',
+      'tests/metalkube/dashboard.scenario.ts',
+    ],
     crud: suite([
       'tests/crud.scenario.ts',
       'tests/secrets.scenario.ts',
