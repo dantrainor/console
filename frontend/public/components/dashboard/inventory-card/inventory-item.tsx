@@ -90,7 +90,7 @@ const StatusLink: React.FC<StatusLinkProps> = React.memo(({groupID, count, statu
 });
 
 export const ResourceInventoryItem: React.FC<ResourceInventoryItemProps> = React.memo(
-  ({ kind, useAbbr, resources, additionalResources, isLoading, mapper, namespace, error }) => {
+  ({ kind, useAbbr, resources, additionalResources, isLoading, mapper, namespace, error, ...props }) => {
     const groups = mapper(resources, additionalResources);
     const [singularTitle, pluralTitle] = useAbbr ? [kind.abbr, `${kind.abbr}s`] : [kind.label, kind.labelPlural];
     return (
@@ -149,4 +149,5 @@ type ResourceInventoryItemProps = {
   isLoading: boolean;
   namespace?: string;
   error: boolean;
+  'data-test-id'?: string;
 }
