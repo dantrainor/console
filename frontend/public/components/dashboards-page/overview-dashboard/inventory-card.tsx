@@ -110,6 +110,7 @@ const InventoryCard_: React.FC<DashboardItemProps> = ({ watchK8sResource, stopWa
               additionalResources={additionalResourcesData}
               mapper={item.properties.mapper}
               useAbbr={item.properties.useAbbr}
+              data-test-id={props['data-test-id']}
             />
           );
         })}
