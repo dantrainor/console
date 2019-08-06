@@ -50,7 +50,7 @@ const getResourcesToWatch = (): FirehoseResource[] => {
   return allResources;
 };
 
-const InventoryCard_: React.FC<DashboardItemProps> = ({ watchK8sResource, stopWatchK8sResource, resources }) => {
+const InventoryCard_: React.FC<DashboardItemProps> = ({ watchK8sResource, stopWatchK8sResource, resources, ...props }) => {
   React.useEffect(() => {
     const resourcesToWatch = getResourcesToWatch();
     resourcesToWatch.forEach(r => watchK8sResource(r));
