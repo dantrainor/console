@@ -51,6 +51,7 @@ const ClusterInventoryItem = withDashboardResources(
       useAbbr,
       additionalResources,
       expandedComponent,
+      ...props
     }: ClusterInventoryItemProps) => {
       React.useEffect(() => {
         const resource = getFirehoseResource(model);
@@ -106,6 +107,7 @@ const ClusterInventoryItem = withDashboardResources(
           useAbbr={useAbbr}
           additionalResources={additionalResourcesData}
           ExpandedComponent={expandedComponent ? ExpandedComponent : null}
+          data-test-id={props['data-test-id']}
         />
       );
     },
@@ -139,6 +141,7 @@ export const InventoryCard = connectToFlags(
               additionalResources={item.properties.additionalResources}
               useAbbr={item.properties.useAbbr}
               expandedComponent={item.properties.expandedComponent}
+              data-test-id={`console-dashboard-inventory-${item.properties.model.id}`}
             />
           ))}
         </InventoryBody>
@@ -153,4 +156,5 @@ type ClusterInventoryItemProps = DashboardItemProps & {
   useAbbr?: boolean;
   additionalResources?: FirehoseResource[];
   expandedComponent?: LazyLoader;
+  'data-test-id'?: string;
 };

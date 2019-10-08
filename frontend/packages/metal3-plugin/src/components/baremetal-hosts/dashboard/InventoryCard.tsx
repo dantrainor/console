@@ -86,6 +86,7 @@ const InventoryCard: React.FC<InventoryCardProps> = ({
             title="Pod"
             count={podCount}
             error={podQueryError || podError || !podStats.length}
+            data-test-id="foo"
           />
         </InventoryBody>
       </DashboardCardBody>
@@ -97,4 +98,6 @@ export default withDashboardResources(InventoryCard);
 
 type InventoryCardProps = DashboardItemProps & {
   obj: BareMetalHostKind;
+  'data-test-id'?: string;
+
 };
